@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import shutil
 import sys
 from dataclasses import asdict
 from pathlib import Path
@@ -10,6 +11,7 @@ from typing import Any
 
 from _bootstrap_row_bot import bootstrap
 
+sys.dont_write_bytecode = True
 bootstrap()
 
 from row_bot.plugins.devtools import build_index, validate_plugin_path  # noqa: E402
@@ -51,6 +53,8 @@ def main(argv: list[str] | None = None) -> int:
     if not root.is_dir():
         errors.append(f"Repository root not found: {root}")
         return _finish(False, errors, warnings, [], [], args.json)
+
+    _remove_generated_python_artifacts(root)
 
     for rel in REQUIRED_PATHS:
         if not (root / rel).exists():
@@ -115,6 +119,19 @@ def _read_json(path: Path) -> dict[str, Any]:
     except (OSError, json.JSONDecodeError):
         return {}
     return data if isinstance(data, dict) else {}
+
+
+def _remove_generated_python_artifacts(root: Path) -> None:
+    for parent in (root / "plugins", root / "templates"):
+        if not parent.is_dir():
+            continue
+        for cache_dir in parent.rglob("__pycache__"):
+            if cache_dir.is_dir():
+                shutil.rmtree(cache_dir)
+        for pattern in ("*.pyc", "*.pyo", "*.pyd"):
+            for path in parent.rglob(pattern):
+                if path.is_file():
+                    path.unlink()
 
 
 def _scan_sensitive_text(root: Path) -> list[str]:

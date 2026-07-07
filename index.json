@@ -34,6 +34,39 @@
       "changelog_url": ""
     },
     {
+      "id": "hubspot-crm",
+      "name": "HubSpot CRM",
+      "version": "0.2.0",
+      "description": "Search, read, and manage HubSpot CRM contacts, companies, deals, and tickets.",
+      "author": {
+        "name": "GokulAIx",
+        "github": "GokulAIx"
+      },
+      "tags": [
+        "crm",
+        "hubspot",
+        "sales",
+        "contacts",
+        "deals",
+        "tickets"
+      ],
+      "path": "plugins/hubspot-crm",
+      "archive_url": "",
+      "checksum": "sha256:0597cc3c0c790188486e83f4cc0dfc4a121a4d0f66e6c6ef556947e9aa75d290",
+      "provides": {
+        "native_tools": 5,
+        "mcp_servers": 0,
+        "channels": 0,
+        "skills": 1
+      },
+      "permissions": [
+        "network",
+        "account"
+      ],
+      "min_row_bot_version": "0.0.0",
+      "changelog_url": ""
+    },
+    {
       "id": "microsoft-teams-channel",
       "name": "Microsoft Teams Channel",
       "version": "1.0.0",

@@ -1,0 +1,63 @@
+{
+  "schema_version": 2,
+  "id": "hubspot-crm",
+  "name": "HubSpot CRM",
+  "version": "0.2.0",
+  "min_row_bot_version": "0.0.0",
+  "author": {"name": "GokulAIx", "github": "GokulAIx"},
+  "description": "Search, read, and manage HubSpot CRM contacts, companies, deals, and tickets.",
+  "long_description": "Connect Row-Bot to your HubSpot CRM. Read side: search contacts, companies, deals, and tickets, look up a single record by id, and summarize the open deal pipeline by stage. Write side: create, update, and delete records and log notes or tasks. All write actions are approval-gated through Row-Bot, so the agent asks for confirmation before changing anything in HubSpot. Authenticates with a HubSpot Private App access token.",
+  "icon": "contacts",
+  "license": "Apache-2.0",
+  "tags": ["crm", "hubspot", "sales", "contacts", "deals", "tickets"],
+  "homepage": "https://github.com/siddsachar/row-bot-plugins",
+  "repository": "https://github.com/siddsachar/row-bot-plugins",
+  "provides": {
+    "native_tools": [
+      {"id": "hubspot_crm", "entrypoint": "plugin_main.py"},
+      {"id": "hubspot_create_record", "entrypoint": "plugin_main.py"},
+      {"id": "hubspot_update_record", "entrypoint": "plugin_main.py"},
+      {"id": "hubspot_delete_record", "entrypoint": "plugin_main.py"},
+      {"id": "hubspot_log_engagement", "entrypoint": "plugin_main.py"}
+    ],
+    "mcp_servers": [],
+    "channels": [],
+    "skills": [
+      {
+        "id": "hubspot_crm",
+        "path": "skills/hubspot_crm/SKILL.md"
+      }
+    ]
+  },
+  "permissions": ["network", "account"],
+  "settings": {
+    "default_count": {
+      "type": "number",
+      "label": "Default number of results",
+      "description": "How many records to return per search or list (1-30).",
+      "default": 10,
+      "required": false
+    }
+  },
+  "secrets": {
+    "access_token": {
+      "type": "secret",
+      "label": "HubSpot Private App Token",
+      "description": "Access token from a HubSpot Private App with CRM read scopes. Starts with 'pat-'.",
+      "required": true
+    }
+  },
+  "auth": {
+    "account": {
+      "type": "bearer_token",
+      "secret": "access_token"
+    }
+  },
+  "health_checks": [
+    {
+      "id": "access_token_present",
+      "type": "required_secrets",
+      "secrets": ["access_token"]
+    }
+  ]
+}
