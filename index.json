@@ -52,7 +52,7 @@
       ],
       "path": "plugins/hubspot-crm",
       "archive_url": "",
-      "checksum": "sha256:83cf2c9d57d3d8ece52ac2e575837a33e1c468319254e76f65730e1f90ce7b28",
+      "checksum": "sha256:e378ef6edfca5dfe22f5cdcc3774fd968d9e523757924bf8c3bfebc1b1ca16ee",
       "provides": {
         "native_tools": 5,
         "mcp_servers": 0,
