@@ -20,7 +20,7 @@
       ],
       "path": "plugins/hacker-news",
       "archive_url": "",
-      "checksum": "sha256:daaba055c183558fb4727ab2d830d142175dac7b700d3395785782e2d62d992e",
+      "checksum": "sha256:504466eaaa0828532d548c70af42c7312b2b8d5da41c22523cc4a6d969c8af9a",
       "provides": {
         "native_tools": 1,
         "mcp_servers": 0,
@@ -52,7 +52,39 @@
       ],
       "path": "plugins/hubspot-crm",
       "archive_url": "",
-      "checksum": "sha256:0597cc3c0c790188486e83f4cc0dfc4a121a4d0f66e6c6ef556947e9aa75d290",
+      "checksum": "sha256:f91199478a0242eb8bf20158a4f48a0ff824fd0b2578bd139ad6837140ee4d20",
+      "provides": {
+        "native_tools": 5,
+        "mcp_servers": 0,
+        "channels": 0,
+        "skills": 1
+      },
+      "permissions": [
+        "network",
+        "account"
+      ],
+      "min_row_bot_version": "0.0.0",
+      "changelog_url": ""
+    },
+    {
+      "id": "memcode-memory",
+      "name": "Memcode Memory",
+      "version": "0.1.0",
+      "description": "Give Row-Bot opt-in long-term memory backed by the Memcode personal v2 API.",
+      "author": {
+        "name": "Vivek Gupta",
+        "github": "vivekgupta-memcode"
+      },
+      "tags": [
+        "memory",
+        "memcode",
+        "search",
+        "knowledge",
+        "productivity"
+      ],
+      "path": "plugins/memcode-memory",
+      "archive_url": "",
+      "checksum": "sha256:48f33cf1ce2f65676b5b614111b282cf5237093328cd254a22dbe66d940b938c",
       "provides": {
         "native_tools": 5,
         "mcp_servers": 0,
@@ -84,7 +116,7 @@
       ],
       "path": "plugins/microsoft-teams-channel",
       "archive_url": "",
-      "checksum": "sha256:be95f54226001c766db5c28994ad67a559dc09f023328ed39ccfd4f3ef4c4686",
+      "checksum": "sha256:75472cac9698a23c15691b26caa6540d753d8c95979f07c58c4d45d9bb47ce07",
       "provides": {
         "native_tools": 0,
         "mcp_servers": 0,
@@ -119,7 +151,7 @@
       ],
       "path": "plugins/rss-reader",
       "archive_url": "",
-      "checksum": "sha256:609e4ba97d9ef8c9d1952aa16924dcae66b2645b6cdf0ddc3c7d18231bf6ad1f",
+      "checksum": "sha256:fcf8bdcce7aa9606b4f6e4044b3d4e8566ab4acad3bc97435c9077e19391f2da",
       "provides": {
         "native_tools": 1,
         "mcp_servers": 0,
