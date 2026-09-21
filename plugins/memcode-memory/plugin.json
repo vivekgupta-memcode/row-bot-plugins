@@ -50,7 +50,7 @@
     "api_key": {
       "type": "secret",
       "label": "Memcode API key",
-      "description": "Personal Memcode credential. It determines which user's memories are accessible.",
+      "description": "Integration-issued personal Memcode credential. Create it with Row-Bot selected in the Memcode dashboard; it determines which user's memories are accessible.",
       "required": true
     }
   },
