@@ -6,11 +6,15 @@ a caller-supplied user id.
 
 ## Setup
 
-1. Create a personal Memcode API key.
+1. Open the [Memcode API-key dashboard](https://app.memcode.in/dashboard?section=api-keys&integration=row-bot) and create a key with **Row-Bot** selected under integration attribution.
 2. Install this plugin from Plugin Center.
-3. Add the key to **Memcode API key**.
+3. Add that integration-issued personal key to **Memcode API key**.
 4. Keep **Memcode API URL** at `https://memory.memcode.in`, or point it to your
    own compatible deployment.
+
+Memcode binds the `row-bot` identity when the key is issued; the plugin does not
+send an attribution header or metadata field. A generic personal key still works,
+but its traffic is counted as generic direct API usage.
 
 ## Tools
 
