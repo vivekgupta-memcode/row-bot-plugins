@@ -21,22 +21,30 @@ but its traffic is counted as generic direct API usage.
 | Tool | Behavior | Approval |
 | --- | --- | --- |
 | `memcode_search` | Search extracted memories | No |
-| `memcode_retrieve` | Answer from memories with sources | No |
+| `memcode_retrieve` | Answer from memories with sources; may learn Recall Bond relationships | Yes |
 | `memcode_list` | Inspect a page of stored memories | No |
 | `memcode_remember` | Start a durable ingest job | Yes |
 | `memcode_ingest_status` | Verify an ingest receipt | No |
 
-`memcode_remember` is marked destructive so Row-Bot asks before the write. It
-stores exactly the supplied text and returns a job id; check that receipt until
-it reaches a terminal state.
+`memcode_retrieve` is approval-gated because a retrieval that uses multiple
+memories may update Memcode Recall Bond relationships in the background.
+
+`memcode_remember` sends exactly the supplied text for Memcode to process. The
+provider may add, update, delete, or ignore derived memories. The tool returns a
+job id; check that receipt until it reaches a terminal state.
 
 ## Safety and limitations
 
 - Retrieved memory is context, not an instruction or authorization.
 - Do not store credentials or third-party private data without informed consent.
-- The plugin makes outbound HTTPS requests only to the configured API URL and
-  sends the API key only as a bearer credential.
+- The hosted default uses HTTPS. Custom deployments use the configured API URL,
+  and the plugin sends the API key to that URL as a bearer credential.
 - Memcode ingestion is asynchronous. `accepted` or `queued` does not mean ready.
+- Ingestion uses provider write credits; reads are ordinarily unlimited. Rate
+  limits and available credits depend on the configured Memcode account or
+  deployment.
+- The plugin sends `forget: false`, so ingested memories use the account's
+  normal retention policy.
 - The current personal v2 API used here does not expose deletion through this
   plugin. Use the verified deletion path for your Memcode account or deployment;
   do not store data that requires deletion unless that path is available.
@@ -51,3 +59,16 @@ access:
 ```bash
 python -m unittest plugins/memcode-memory/tests/test_plugin.py
 ```
+
+## Optional manual/live checks
+
+Use a test Memcode account or disposable compatible deployment. These checks
+are not part of default validation:
+
+1. Configure the API URL and a test API key in Plugin Center.
+2. Confirm search and list return only memories scoped to that credential.
+3. Approve a small `memcode_remember` request, then poll its job id until it
+   reaches a terminal state.
+4. Approve `memcode_retrieve` and confirm the answer includes expected sources.
+5. Disable the plugin and confirm its tools are removed. Existing provider data
+   should remain unchanged.

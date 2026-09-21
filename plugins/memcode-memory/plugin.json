@@ -6,7 +6,7 @@
   "min_row_bot_version": "0.0.0",
   "author": {"name": "Vivek Gupta", "github": "vivekgupta-memcode"},
   "description": "Give Row-Bot opt-in long-term memory backed by the Memcode personal v2 API.",
-  "long_description": "Search, retrieve, and inspect memories for the authenticated Memcode user. New memories are written only through a separate approval-gated tool and return a durable ingest receipt that can be polled. The plugin never accepts a caller-supplied user id; identity comes from the configured Memcode credential.",
+  "long_description": "Search and inspect memories for the authenticated Memcode user. Retrieval is approval-gated because Memcode may learn Recall Bond relationships, and ingestion is approval-gated because it may change durable memories. Ingestion returns a durable receipt that can be polled. The plugin never accepts a caller-supplied user id; identity comes from the configured Memcode credential.",
   "icon": "brain",
   "license": "MIT",
   "tags": ["memory", "memcode", "search", "knowledge", "productivity"],

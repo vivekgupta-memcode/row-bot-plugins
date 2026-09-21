@@ -94,15 +94,18 @@ class TestRegistrationAndApproval(unittest.TestCase):
         self.module.register(api)
         self.assertEqual(api.register_tool.call_count, 5)
 
-    def test_only_remember_is_destructive(self):
+    def test_memory_mutations_require_approval(self):
         api = _api()
         self.assertEqual(
             self.module.MemcodeRememberTool(api).destructive_tool_names,
             {"memcode_remember"},
         )
+        self.assertEqual(
+            self.module.MemcodeRetrieveTool(api).destructive_tool_names,
+            {"memcode_retrieve"},
+        )
         for cls in (
             self.module.MemcodeSearchTool,
-            self.module.MemcodeRetrieveTool,
             self.module.MemcodeListTool,
             self.module.MemcodeIngestStatusTool,
         ):
@@ -124,7 +127,7 @@ class TestRequests(unittest.TestCase):
         urlopen.return_value = _Response(
             {"status": "ok", "data": {"memory_results": [{"domain": "profile", "content": "Prefers concise updates", "score": 0.9}]}}
         )
-        result = self.module.MemcodeSearchTool(_api()).execute("communication style 3")
+        result = self.module.MemcodeSearchTool(_api()).execute("communication style count=3")
         request = urlopen.call_args.args[0]
         body = json.loads(request.data)
         self.assertEqual(request.full_url, "https://memory.memcode.in/v2/memory/search")
@@ -132,6 +135,15 @@ class TestRequests(unittest.TestCase):
         self.assertEqual(body["top_k"], 3)
         self.assertNotIn("user_id", body)
         self.assertIn("Prefers concise updates", result)
+
+    @patch("urllib.request.urlopen")
+    def test_search_preserves_numeric_query_suffix(self, urlopen):
+        urlopen.return_value = _Response({"status": "ok", "data": {"memory_results": []}})
+        self.module.MemcodeSearchTool(_api()).execute("budget 2026")
+        request = urlopen.call_args.args[0]
+        body = json.loads(request.data)
+        self.assertEqual(body["query"], "budget 2026")
+        self.assertEqual(body["top_k"], 5)
 
     @patch("urllib.request.urlopen")
     def test_remember_returns_receipt_and_sends_exact_text(self, urlopen):

@@ -30,8 +30,10 @@ def _bounded_count(value: Any, default: int = 5) -> int:
 def _query_and_count(value: str, default: int) -> tuple[str, int]:
     text = (value or "").strip()
     parts = text.rsplit(None, 1)
-    if len(parts) == 2 and parts[1].isdigit():
-        return parts[0].strip(), _bounded_count(parts[1], default)
+    if len(parts) == 2 and parts[1].lower().startswith("count="):
+        raw_count = parts[1].split("=", 1)[1]
+        if raw_count.isdigit():
+            return parts[0].strip(), _bounded_count(raw_count, default)
     return text, default
 
 
@@ -136,7 +138,7 @@ class MemcodeSearchTool(_MemcodeTool):
 
     @property
     def description(self) -> str:
-        return "Search the authenticated user's memories. Usage: <query> [count]. Read-only."
+        return "Search the authenticated user's memories. Usage: <query> [count=N]. Read-only."
 
     def execute(self, query: str) -> str:
         text, count = _query_and_count(query, self._default_count())
@@ -176,7 +178,14 @@ class MemcodeRetrieveTool(_MemcodeTool):
 
     @property
     def description(self) -> str:
-        return "Answer a question from the authenticated user's memories. Usage: <question> [source count]. Read-only."
+        return (
+            "Answer from the authenticated user's memories. Usage: <question> [count=N]. "
+            "May update Memcode Recall Bond relationships and requires approval."
+        )
+
+    @property
+    def destructive_tool_names(self) -> set[str]:
+        return {"memcode_retrieve"}
 
     def execute(self, query: str) -> str:
         text, count = _query_and_count(query, self._default_count())
@@ -246,7 +255,10 @@ class MemcodeRememberTool(_MemcodeTool):
 
     @property
     def description(self) -> str:
-        return "Store exactly the supplied text in Memcode. This write requires user approval."
+        return (
+            "Send exactly the supplied text to Memcode for memory processing. Memcode may "
+            "add, update, delete, or ignore derived memories. This write requires approval."
+        )
 
     @property
     def destructive_tool_names(self) -> set[str]:
